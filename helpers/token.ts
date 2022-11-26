@@ -1,6 +1,6 @@
 import {WalletClient} from "@martiandao/aptos-web3-bip44.js";
 
-export interface HoldToken {
+export interface HeldToken {
     creator: string
     collectionName: string
     tokenName: string
@@ -10,7 +10,7 @@ export interface HoldToken {
 
 export async function getUserTokens(
     client: WalletClient, user: string,
-): Promise<HoldToken[]> {
+): Promise<HeldToken[]> {
     let hold = []
     const results = await client.getTokenIds(user)
     for (let id of results.tokenIds) {
@@ -35,11 +35,12 @@ export interface TokenInfo {
     collectionName: string
     tokenName: string
     propertyVersion: string
+    image:string
 }
 
 
 export function verifyHolder(
-    userTokens: TokenInfo[], whitelistTokens: TokenInfo[]
+    userTokens: HeldToken[], whitelistTokens: TokenInfo[]
 ): boolean {
     const userTokenSet=new Set()
     for (let uToken of userTokens) {
@@ -66,4 +67,36 @@ export function verifyHolder(
         }
     }
     return false
+}
+
+export function getHeldTokens(
+    userTokens: HeldToken[], whitelistTokens: TokenInfo[]
+): TokenInfo[] {
+    let data=[]
+    const userTokenSet=new Set()
+    for (let uToken of userTokens) {
+        const {
+            creator,
+            collectionName,
+            tokenName,
+            propertyVersion
+        }=uToken
+        const name=`NAME::${creator}::${collectionName}::${tokenName}::${propertyVersion}`
+        userTokenSet.add(name)
+    }
+    for (let wToken of whitelistTokens) {
+        const {
+            creator,
+            collectionName,
+            tokenName,
+            propertyVersion,
+            image
+        }=wToken
+        const name=`NAME::${creator}::${collectionName}::${tokenName}::${propertyVersion}`
+        if (userTokenSet.has(name)) {
+            console.log(`${name}`)
+            data.push(wToken)
+        }
+    }
+    return data
 }

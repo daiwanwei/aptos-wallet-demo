@@ -15,6 +15,7 @@ export const CollectionListProvider: FC<CollectionListProviderProps> = (
             collectionName: string
             tokenName: string
             propertyVersion: string
+            image:string
         }[] = []
         for (let i of WHITELIST) {
             l.push({
@@ -22,6 +23,7 @@ export const CollectionListProvider: FC<CollectionListProviderProps> = (
                 collectionName: i.collectionName,
                 tokenName: i.tokenName,
                 propertyVersion: i.propertyVersion,
+                image:i.image
             })
         }
         return l

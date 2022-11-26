@@ -9,6 +9,7 @@ export interface Collection{
     collectionName: string
     tokenName: string
     propertyVersion: string
+    image:string
 }
 
 export const CollectionListContext=createContext({} as CollectionListContextState)

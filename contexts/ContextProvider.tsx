@@ -8,6 +8,7 @@ import {
 } from "@manahippo/aptos-wallet-adapter";
 import {CollectionListProvider} from "./CollectionListProvider";
 import {CollectionHolderProvider} from "./CollectionHolderProvider";
+import {AptosClientProvider} from "./AptosClientProvider";
 
 export interface ContextProviderProps{
     children:ReactNode
@@ -33,11 +34,13 @@ export const ContextProvider:FC<ContextProviderProps>=(
                 console.log('wallet errors: ', error);
             }}>
             <WalletModalProvider>
-                <CollectionListProvider>
-                    <CollectionHolderProvider >
-                        {children}
-                    </CollectionHolderProvider>
-                </CollectionListProvider>
+                <AptosClientProvider>
+                    <CollectionListProvider>
+                        <CollectionHolderProvider >
+                            {children}
+                        </CollectionHolderProvider>
+                    </CollectionListProvider>
+                </AptosClientProvider>
             </WalletModalProvider>
         </WalletProvider>
     )

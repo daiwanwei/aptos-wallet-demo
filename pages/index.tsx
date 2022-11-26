@@ -18,7 +18,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Aptos Vorp Collection
         </h1>
-        <CollectionHolderButton>connect your wallet to see if you are a holder of bull empire</CollectionHolderButton>
+        <CollectionHolderButton>connect your wallet to see if you are a holder of vorp</CollectionHolderButton>
         <CollectionHolderProfile/>
       </main>
 

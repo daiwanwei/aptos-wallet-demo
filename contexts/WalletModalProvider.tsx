@@ -17,7 +17,6 @@ export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ..
                 setVisible,
             }}
         >
-            {visible && <h1>Dog!</h1>}
             {visible && <WalletModal {...props} />}
             {children}
         </WalletModalContext.Provider>

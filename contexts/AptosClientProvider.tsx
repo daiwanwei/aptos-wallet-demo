@@ -13,7 +13,7 @@ export const AptosClientProvider: FC<AptosClientProviderProps> = (
     {children}
 ) => {
     const {network}=useWallet()
-    const endpoint=network.api || "https://fullnode.mainnet.aptoslabs.com/v1"
+    const endpoint=network?.api || "https://fullnode.mainnet.aptoslabs.com/v1"
     const faucet="https://faucet.testnet.aptoslabs.com"
     const client = useMemo(() => new AptosClient(endpoint), [endpoint])
     const tokenClient = useMemo(() => new TokenClient(client), [client])

@@ -19,8 +19,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     const [expanded, setExpanded] = useState(false);
     const [fadeIn, setFadeIn] = useState(false);
     const [portal, setPortal] = useState<Element | null>(null);
-    console.log(`wallet!`)
-    console.log(wallets)
     const [installedWallets, otherWallets] = useMemo(() => {
         const installed: Wallet[] = [];
         const notDetected: Wallet[] = [];
@@ -43,9 +41,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         return installedWallets.length
             ?
             installedWallets[0]!
-            : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
-            wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
-            wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
+            : wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
             otherWallets[0]!;
     }, [installedWallets, wallets, otherWallets]);
     console.log(getStartedWallet)

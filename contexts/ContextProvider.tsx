@@ -2,9 +2,10 @@ import {FC, ReactNode, useMemo} from "react";
 import {WalletModalProvider} from "./WalletModalProvider";
 import {
     AptosWalletAdapter,
-    HippoExtensionWalletAdapter,
     MartianWalletAdapter, PontemWalletAdapter,
-    WalletProvider
+    BloctoWalletAdapter, RiseWalletAdapter,
+    FewchaWalletAdapter,
+    WalletProvider, WalletAdapterNetwork
 } from "@manahippo/aptos-wallet-adapter";
 import {CollectionListProvider} from "./CollectionListProvider";
 import {CollectionHolderProvider} from "./CollectionHolderProvider";
@@ -19,10 +20,14 @@ export const ContextProvider:FC<ContextProviderProps>=(
 )=>{
     const wallets = useMemo(
         () => [
-            new HippoExtensionWalletAdapter(),
+            new FewchaWalletAdapter(),
             new MartianWalletAdapter(),
             new AptosWalletAdapter(),
             new PontemWalletAdapter(),
+            new RiseWalletAdapter(),
+            new BloctoWalletAdapter({
+                network: WalletAdapterNetwork.Mainnet, bloctoAppId:'6d85f56e-5f2e-46cd-b5f2-5cf9695b4d46'
+            }),
         ],
         []
     );

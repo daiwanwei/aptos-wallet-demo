@@ -11,7 +11,7 @@ export const WalletConnectButton: FC<ButtonProps> = ({ children, disabled, onCli
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
         (event) => {
             if (onClick) onClick(event);
-            if (!event.defaultPrevented) connect().catch(() => {});
+            if (!event.defaultPrevented && connect) connect().catch(() => {});
         },
         [onClick, connect]
     );

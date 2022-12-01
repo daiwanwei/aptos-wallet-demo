@@ -10,7 +10,7 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({ children, disabled, on
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
         (event) => {
             if (onClick) onClick(event);
-            if (!event.defaultPrevented) disconnect().catch(() => {});
+            if (!event.defaultPrevented && disconnect) disconnect().catch(() => {});
         },
         [onClick, disconnect]
     );

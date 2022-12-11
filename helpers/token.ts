@@ -1,5 +1,4 @@
 import {WalletClient} from "@martiandao/aptos-web3-bip44.js";
-import axios from "axios";
 
 export interface CollectionInfo {
     creator: string

@@ -3,7 +3,7 @@ import {useWallet} from "@manahippo/aptos-wallet-adapter";
 import {useAptosClient} from "../hooks/useAptosClient";
 import {CollectionHolderContext} from "../hooks/useCollectionHolder";
 import {useCollectionList} from "../hooks/useWhitelist";
-import {getHeldTokens, getUserTokens, verifyHolder} from "../helpers/token";
+import {getHeldTokens, getUserTokens} from "../helpers/token";
 
 export interface CollectionHolderProviderProps{
     children:ReactNode
@@ -34,7 +34,7 @@ export const CollectionHolderProvider:FC<CollectionHolderProviderProps>=(
             }
             const userTokens=await getUserTokens(walletClient,holder)
             console.log(userTokens)
-            const hold=getHeldTokens(userTokens,collections)
+            const hold=await getHeldTokens(walletClient,holder,collections)
             setTokens(hold)
             if (hold.length>0) {
                 setIsHolder(true)

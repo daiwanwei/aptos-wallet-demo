@@ -74,7 +74,7 @@ export const CollectionHolderButton: FC<ButtonProps> = ({ children, ...props }) 
                 startIcon={<WalletIcon wallet={currentWallet} />}
                 {...props}
             >
-                {isHolder? "you are holder of vorp":"you aren't holder of vorp"}
+                {isHolder? "you are the holder of collabrated collections":"you aren't the holder of collabrated collections"}
             </Button>
             <ul
                 aria-label="dropdown-list"

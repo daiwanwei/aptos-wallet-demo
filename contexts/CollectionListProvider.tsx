@@ -1,6 +1,6 @@
 import {FC, ReactNode, useMemo} from "react";
 import {CollectionListContext} from "../hooks/useWhitelist";
-import WHITELIST from "../vorp.json";
+import WHITELIST from "../whitelist.json";
 
 export interface CollectionListProviderProps {
     children: ReactNode
@@ -13,17 +13,13 @@ export const CollectionListProvider: FC<CollectionListProviderProps> = (
         let l: {
             creator: string
             collectionName: string
-            tokenName: string
-            propertyVersion: string
-            image:string
+            imageTemplate?: string
         }[] = []
         for (let i of WHITELIST) {
             l.push({
                 creator: i.creator,
                 collectionName: i.collectionName,
-                tokenName: i.tokenName,
-                propertyVersion: i.propertyVersion,
-                image:i.image
+                imageTemplate: i.imageTemplate
             })
         }
         return l

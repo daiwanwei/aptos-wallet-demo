@@ -1,0 +1,26 @@
+[
+  {
+    "creator": "0xf49e91c4bcf494013b8dda4155859f63b3f3ab7a01a62313c944722a31db97d1",
+    "collectionName": "VORP Pass"
+  },
+  {
+    "creator": "0xd5efd09ff3954845c23428667c63c366d7d88c2a77830063ec0f8d982d56a623",
+    "collectionName": "Aptos Polar Bears"
+  },
+
+  {
+    "creator": "0xf932dcb9835e681b21d2f411ef99f4f5e577e6ac299eebee2272a39fb348f702",
+    "collectionName": "Aptos Monkeys",
+    "imageTemplate": "https://ipfs.io/ipfs/bafybeig6bepf5ci5fyysxlfefpjzwkfp7sarj6ed2f5a34kowgc6qenjfa/"
+  },
+  {
+    "creator": "0xc0e3fbf8ae61056d66ce624d71ccf1888f879355cc4e364ef117249b5e3160a8",
+    "collectionName": "Aptomingos",
+    "imageTemplate": "https://bafybeidlvhvnnnl3zznatgio6gvd3xsss5uszc7fuwzsqn2ttzknosnxly.ipfs.dweb.link/"
+  },
+  {
+    "creator": "0x43ec2cb158e3569842d537740fd53403e992b9e7349cc5d3dfaa5aff8faaef2",
+    "collectionName": "Bruh Bears",
+    "imageTemplate": "https://bafybeih6hezn7yyabgunclxhi5xa2sbfd6gnnc6un3lilcufq5yyywlpqm.ipfs.nftstorage.link/"
+  }
+]

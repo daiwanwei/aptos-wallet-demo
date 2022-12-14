@@ -1,20 +1,21 @@
-import {FC, ReactNode, useEffect, useMemo, useState} from "react";
+import {FC, ReactNode, useCallback, useEffect, useMemo, useState} from "react";
 import {useWallet} from "@manahippo/aptos-wallet-adapter";
 import {useAptosClient} from "../hooks/useAptosClient";
 import {CollectionHolderContext} from "../hooks/useCollectionHolder";
 import {useCollectionList} from "../hooks/useWhitelist";
-import {getHeldTokens, getUserTokens} from "../helpers/token";
+import {getCollectionDataHandle, getHeldTokens, getUserTokens,getTokenInfo as getTokenData} from "../helpers/token";
 
 export interface CollectionHolderProviderProps{
     children:ReactNode
 }
 
-export interface TokenInfo{
+export interface Token{
     creator: string
     collectionName: string
     tokenName: string
     propertyVersion: string
-    image:string
+    amount:number
+    imageTemplate?: string
 }
 
 export const CollectionHolderProvider:FC<CollectionHolderProviderProps>=(
@@ -25,7 +26,12 @@ export const CollectionHolderProvider:FC<CollectionHolderProviderProps>=(
     const {collections}=useCollectionList()
     const holder=useMemo(()=>account?.address?.toString() ,[account])
     const [isHolder,setIsHolder]=useState(false)
-    const [tokens,setTokens]=useState<TokenInfo[]>([])
+    const [tokens,setTokens]=useState<Token[]>([])
+    const getTokenInfo=useCallback( async (token:Token)=>{
+        const handle=await getCollectionDataHandle(walletClient,token.creator)
+        const info=await getTokenData(walletClient,handle,token)
+        return info
+    },[walletClient])
     useEffect(()=>{
         const updateData=async ()=>{
             if (!holder){
@@ -47,7 +53,7 @@ export const CollectionHolderProvider:FC<CollectionHolderProviderProps>=(
             .catch((err)=>console.log(`updateIsHolder fail,err:${err}`))
     },[holder,walletClient])
     return(
-        <CollectionHolderContext.Provider value={{holder,isHolder,tokens}}>
+        <CollectionHolderContext.Provider value={{holder,isHolder,tokens,getTokenInfo}}>
             {children}
         </CollectionHolderContext.Provider>
     )

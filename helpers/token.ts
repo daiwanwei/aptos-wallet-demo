@@ -12,6 +12,7 @@ export interface Token {
     tokenName: string
     propertyVersion: string
     amount:number
+    imageTemplate?: string
 }
 
 export interface TokenInfo {
@@ -55,8 +56,8 @@ export async function getCollectionDataHandle(
     return handle
 }
 
-export async function toTokenMetadata(
-    client:WalletClient,collectionHandle:string,info:Token,imageTemplate?:string
+export async function getTokenInfo(
+    client:WalletClient,collectionHandle:string,info:Token
 ):Promise<TokenInfo> {
     const tableItemRequest = {
         key_type: "0x3::token::TokenDataId",
@@ -71,7 +72,7 @@ export async function toTokenMetadata(
         collectionHandle,
         tableItemRequest
     );
-    const image=imageTemplate? convertUrl(token.uri,imageTemplate):token.uri
+    const image=info.imageTemplate? convertUrl(token.uri,info.imageTemplate):token.uri
     return {
         collectionName:info.collectionName,
         tokenName:token.name,
@@ -90,39 +91,26 @@ function convertUrl(url:string,template:string):string{
     return `${template}${file}.png`
 }
 
-// async function convertUrl(url:string):Promise<string>{
-//     const reg=/ipfs:\/\/([A-Za-z0-9_/.]*)/
-//     const regExpMatchArray=url.match(reg)
-//     if (!regExpMatchArray) return url
-//     console.log(regExpMatchArray)
-//     const [cid,...reminder]=regExpMatchArray[1].split("/")
-//     const file=reminder.join("/")
-//     const ipfsUrl=`https://${cid}.ipfs.dweb.link/${file}`
-//     const data =await axios.get(ipfsUrl)
-//     console.log(data)
-//     return ipfsUrl
-// }
-
 export async function getHeldTokens(
     client: WalletClient, user: string,collections:CollectionInfo[]
-):Promise<TokenInfo[]> {
+):Promise<Token[]> {
     const userTokens = await getUserTokens(client, user)
-    const handleMap = new Map()
+    const collectionMap = new Map()
     for (const {creator, collectionName,imageTemplate} of collections) {
-        const key = `handle::${creator}::${collectionName}`
-        if (!handleMap.has(key)) {
-            const handle = await getCollectionDataHandle(client, creator)
-            handleMap.set(key, {handle,imageTemplate})
+        const key = `collection::${creator}::${collectionName}`
+        if (!collectionMap.has(key)) {
+            collectionMap.set(key,{imageTemplate})
         }
     }
-    const metadata = Promise.all(
-        userTokens
-            .filter(({creator, collectionName}) => handleMap.has(`handle::${creator}::${collectionName}`))
-            .map(async (info) => {
-                const {creator, collectionName}=info
-                const {handle,imageTemplate}=handleMap.get(`handle::${creator}::${collectionName}`)
-                console.log(handle)
-                return await toTokenMetadata(client,handle,info,imageTemplate)
-            }))
+    const metadata:Token[]=[]
+    userTokens
+            .forEach((token) => {
+                const {creator, collectionName}=token
+                const key=`collection::${creator}::${collectionName}`
+                if (collectionMap.has(key)){
+                    const {imageTemplate}=collectionMap.get(key)
+                    metadata.push({...token,imageTemplate})
+                }
+            })
     return metadata
 }
